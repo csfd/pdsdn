@@ -11,7 +11,7 @@
 	<property name="libpath" location="lib"/>
 	
 	<patternset id="lib">
-		<include name="**/*.jar"/>
+		<include name="lib/*.jar"/>
     </patternset>
 	
 	<patternset id="floodlight-path">
@@ -59,6 +59,9 @@
             <fileset dir="${build}"/>
             <zipgroupfileset dir="${libpath}">
                 <patternset refid="lib"/>
+            </zipgroupfileset>
+        	<zipgroupfileset dir=".">
+                <patternset refid="floodlight-path"/>
             </zipgroupfileset>
         </jar>
 	</target>
