@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<project default="dist" name="pdsdn">
+	<property name="target" location="target"/>
+    <property name="build" location="${target}/bin"/>
+	<property name="source" location="src/main/java"/>
+	<property name="resources" location="src/main/resources/"/>
+	<property name="pdsdn-jar" location="${target}/pdsdn.jar"/>
+	<property name="main-class" value="com.csfd.pdsdn.core.Main"/>
+    <property name="floodlight" location="floodlight"/>
+	<property name="libpath" location="lib"/>
+	
+	<patternset id="lib">
+		<include name="**/*.jar"/>
+    </patternset>
+	
+	<patternset id="floodlight-path">
+		<include name="floodlight/target/floodlight.jar"/>
+	</patternset>
+
+    <path id="classpath">
+        <fileset dir="${libpath}">
+            <patternset refid="lib"/>
+        </fileset>
+    	<fileset dir=".">
+            <patternset refid="floodlight-path"/>
+        </fileset>
+    </path>
+	
+	<target name="base_floodlight" description="Build floodlight first.">
+	  <ant antfile="build.xml"
+	      dir="${floodlight}"
+	      inheritall="false"
+	      inheritrefs="false"
+	      target="dist"
+	  />
+	</target>
+	
+	<target name="init" depends="base_floodlight">
+        <mkdir dir="${build}"/>
+        <mkdir dir="${target}/lib"/>
+    </target>
+	
+	<target name="compile" depends="init">
+        <javac includeAntRuntime="false" 
+           classpathref="classpath" 
+           debug="true" 
+           srcdir="${source}"
+           destdir="${build}">
+        </javac>
+    </target>
+	
+	<target name="dist" depends="compile">
+        <jar destfile="${pdsdn-jar}" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="${main-class}"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="${build}"/>
+            <zipgroupfileset dir="${libpath}">
+                <patternset refid="lib"/>
+            </zipgroupfileset>
+        </jar>
+	</target>
+</project>

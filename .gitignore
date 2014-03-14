@@ -4,3 +4,13 @@
 *.jar
 *.war
 *.ear
+/bin
+.classpath
+.project
+
+# Config Files #
+/.externalToolBuilders
+/.settings
+
+# Compiled Files#
+/target
