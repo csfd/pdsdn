@@ -2,11 +2,16 @@
 
 <project default="dist" name="pdsdn">
 	<property name="target" location="target"/>
-    <property name="build" location="${target}/bin"/>
+    <property name="build" location="bin"/>
+	<property name="test-build" location="bin-test"/>
 	<property name="source" location="src/main/java"/>
 	<property name="resources" location="src/main/resources/"/>
+	<property name="source-test" location="src/test/java"/>
+	<property name="resources-test" location="src/test/resources/"/>
 	<property name="pdsdn-jar" location="${target}/pdsdn.jar"/>
+	<property name="pdsdn-test-jar" location="${target}/pdsdn-test.jar"/>
 	<property name="main-class" value="com.csfd.pdsdn.core.Main"/>
+	<property name="test-main" value="com.csfd.pdsdn.test.core.MainTest"/>
     <property name="floodlight" location="floodlight"/>
 	<property name="libpath" location="lib"/>
 	
@@ -36,8 +41,9 @@
 	  />
 	</target>
 	
-	<target name="init" depends="base_floodlight">
+	<target name="init">
         <mkdir dir="${build}"/>
+		<mkdir dir="${test-build}"/>
         <mkdir dir="${target}/lib"/>
     </target>
 	
@@ -50,13 +56,35 @@
         </javac>
     </target>
 	
-	<target name="dist" depends="compile">
+	<target name="compile-test" depends="compile">
+        <javac includeAntRuntime="false" 
+           classpathref="classpath" 
+           debug="true" 
+           srcdir="${source-test}"
+           destdir="${test-build}">
+        </javac>
+    </target>
+	
+	<target name="dist" depends="compile,compile-test">
         <jar destfile="${pdsdn-jar}" filesetmanifest="mergewithoutmain">
             <manifest>
                 <attribute name="Main-Class" value="${main-class}"/>
                 <attribute name="Class-Path" value="."/>
             </manifest>
             <fileset dir="${build}"/>
+            <zipgroupfileset dir="${libpath}">
+                <patternset refid="lib"/>
+            </zipgroupfileset>
+        	<zipgroupfileset dir=".">
+                <patternset refid="floodlight-path"/>
+            </zipgroupfileset>
+        </jar>
+		<jar destfile="${pdsdn-test-jar}" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="${test-main}"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="${test-build}"/>
             <zipgroupfileset dir="${libpath}">
                 <patternset refid="lib"/>
             </zipgroupfileset>
