@@ -10,6 +10,7 @@
 # Config Files #
 /.externalToolBuilders
 /.settings
+/SyncDB
 
 # Compiled Files#
 /target

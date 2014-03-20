@@ -8,7 +8,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-import com.csfd.pdsdn.policy.json.jsonLoader;
+import org.json.JSONObject;
+
+import com.csfd.pdsdn.helper.FSDBHelper;
+import com.csfd.pdsdn.policy.json.JsonLoader;
 
 /**
  * @author shic
@@ -21,10 +24,12 @@ public class JsonLoaderTest {
     * @throws FileNotFoundException
     */
    public static void main(String[] args) throws FileNotFoundException {
-      File file = new File("user1.json");
+      String filePath = FSDBHelper.ROOT_TATH + "user1.json";
+      File file = new File(filePath);
       InputStream is = new FileInputStream(file);
-      jsonLoader jl = new jsonLoader(is);
-      jl.getJsonObject();
+      JsonLoader jl = new JsonLoader(is);
+      JSONObject jo = jl.getJsonObject();
+      System.out.print(jo.toString());
    }
 
 }

@@ -16,7 +16,7 @@
 	<property name="libpath" location="lib"/>
 	
 	<patternset id="lib">
-		<include name="lib/*.jar"/>
+		<include name="*.jar"/>
     </patternset>
 	
 	<patternset id="floodlight-path">
@@ -57,8 +57,9 @@
     </target>
 	
 	<target name="compile-test" depends="compile">
-        <javac includeAntRuntime="false" 
-           classpathref="classpath" 
+        <javac includeAntRuntime="false"
+           classpath="${build}"
+        	classpathref="classpath" 
            debug="true" 
            srcdir="${source-test}"
            destdir="${test-build}">
