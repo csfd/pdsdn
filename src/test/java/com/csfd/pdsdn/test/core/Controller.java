@@ -46,7 +46,7 @@ public class Controller implements Runnable {
       FloodlightModuleLoader fml = new FloodlightModuleLoader();
       IFloodlightModuleContext moduleContext = null;
       try {
-         moduleContext = fml.loadModulesFromConfig("floodlight/src/main/resources/neutron.properties");
+         moduleContext = fml.loadModulesFromConfig("floodlight/src/main/resources/vn.properties");
       } catch (FloodlightModuleException e) {
          // TODO Auto-generated catch block
          e.printStackTrace();
