@@ -10,6 +10,7 @@
       	"guid": "aaa-aaa",
       	"networkName": "TenantUser1-network1",
       	"gateway": "192.168.1.1",
+      	"hosts": ["1A:CB:D6:CE:BF:6F","C6:CB:9E:3C:B8:E9"],
       }
     }
 }

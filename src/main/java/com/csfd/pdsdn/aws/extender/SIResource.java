@@ -12,13 +12,13 @@ import com.amazonaws.auth.policy.Resource;
  *
  */
 public class SIResource extends Resource {
-   HashMap<String, String> resourceMap;
+   HashMap<String, Object> resourceMap;
 
    /**
     * @param resource
     * @param resourceMap
     */
-   public SIResource(HashMap<String, String> resourceMap) {
+   public SIResource(HashMap<String, Object> resourceMap) {
       super(null);
       this.resourceMap = resourceMap;
    }
@@ -33,7 +33,7 @@ public class SIResource extends Resource {
    /**
     * @return the resourceMap
     */
-   public HashMap<String, String> getResourceMap() {
+   public HashMap<String, Object> getResourceMap() {
       return resourceMap;
    }
 
@@ -41,7 +41,7 @@ public class SIResource extends Resource {
     * @param resourceMap
     *           the resourceMap to set
     */
-   public void setResourceMap(HashMap<String, String> resourceMap) {
+   public void setResourceMap(HashMap<String, Object> resourceMap) {
       this.resourceMap = resourceMap;
    }
 

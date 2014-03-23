@@ -31,11 +31,11 @@ public class JsonPolicyParser {
       sistatement.setSiprincipal(new SIPrincipal("SDN", jsonPricipal.getString("SDN")));
       sistatement.setAction(new SDNAction(jsonStatement.getString("Action")));
       JSONObject jsonResource = jsonStatement.getJSONObject("Resource");
-      HashMap<String, String> resourceMap = new HashMap<String, String>();
+      HashMap<String, Object> resourceMap = new HashMap<String, Object>();
       JSONArray ja = jsonResource.names();
       for (int i = 0; i < ja.length(); i++) {
          String name = ja.getString(i);
-         resourceMap.put(name, jsonResource.getString(name));
+         resourceMap.put(name, jsonResource.get(name));
       }
       sistatement.setResource(new SIResource(resourceMap));
    }

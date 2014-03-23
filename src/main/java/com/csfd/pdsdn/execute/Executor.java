@@ -3,6 +3,8 @@
  */
 package com.csfd.pdsdn.execute;
 
+import net.floodlightcontroller.core.module.FloodlightModuleException;
+
 import com.amazonaws.auth.policy.Statement;
 import com.csfd.pdsdn.policy.json.JsonLoader;
 import com.csfd.pdsdn.policy.json.JsonPolicyParser;
@@ -43,7 +45,12 @@ public class Executor {
          taskExecutor = new VirtualNetworkExecutor(principal.getId(), resource);
       }
       }
-      taskExecutor.execute();
+      try {
+         taskExecutor.execute();
+      } catch (FloodlightModuleException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
       return true;
 
    }

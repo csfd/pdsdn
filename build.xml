@@ -5,6 +5,7 @@
     <property name="build" location="bin"/>
 	<property name="test-build" location="bin-test"/>
 	<property name="source" location="src/main/java"/>
+	<property name="source-util" location="util"/>
 	<property name="resources" location="src/main/resources/"/>
 	<property name="source-test" location="src/test/java"/>
 	<property name="resources-test" location="src/test/resources/"/>
@@ -51,7 +52,7 @@
         <javac includeAntRuntime="false" 
            classpathref="classpath" 
            debug="true" 
-           srcdir="${source}"
+           srcdir="${source}:${source-util}"
            destdir="${build}">
         </javac>
     </target>

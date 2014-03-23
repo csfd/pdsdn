@@ -44,5 +44,10 @@
 			<type>2</type>
 			<locationURI>PROJECT_LOC/src/test/java</locationURI>
 		</link>
+		<link>
+			<name>util-java</name>
+			<type>2</type>
+			<locationURI>PROJECT_LOC/util/java</locationURI>
+		</link>
 	</linkedResources>
 </projectDescription>
