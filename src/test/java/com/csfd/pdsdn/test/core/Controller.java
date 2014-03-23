@@ -13,6 +13,8 @@ import net.floodlightcontroller.restserver.IRestApiService;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 
+import com.csfd.pdsdn.helper.GlobalHelper;
+
 /**
  * @author shic
  *
@@ -47,6 +49,7 @@ public class Controller implements Runnable {
       IFloodlightModuleContext moduleContext = null;
       try {
          moduleContext = fml.loadModulesFromConfig("floodlight/src/main/resources/vn.properties");
+         GlobalHelper.setModuleContext(moduleContext);
       } catch (FloodlightModuleException e) {
          // TODO Auto-generated catch block
          e.printStackTrace();

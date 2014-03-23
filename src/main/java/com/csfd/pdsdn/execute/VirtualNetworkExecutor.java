@@ -9,12 +9,12 @@ import org.json.JSONArray;
 
 import net.floodlightcontroller.core.module.FloodlightModuleContext;
 import net.floodlightcontroller.core.module.FloodlightModuleException;
-import net.floodlightcontroller.core.module.FloodlightModuleLoader;
 import net.floodlightcontroller.core.module.IFloodlightModuleContext;
 import net.floodlightcontroller.util.MACAddress;
 import net.floodlightcontroller.virtualnetwork.VirtualNetworkFilter;
 
 import com.csfd.pdsdn.aws.extender.SIResource;
+import com.csfd.pdsdn.helper.GlobalHelper;
 import com.csfd.pdsdn.helper.IPHelper;
 
 /**
@@ -60,15 +60,7 @@ public class VirtualNetworkExecutor extends TaskExecutor {
    public void execute() throws FloodlightModuleException {
       parseResource();
       VirtualNetworkFilter vnf = new VirtualNetworkFilter();
-      FloodlightModuleLoader fml = new FloodlightModuleLoader();
-      IFloodlightModuleContext moduleContext = null;
-
-      try {
-         moduleContext = fml.loadModulesFromConfig("floodlight/src/main/resources/vn.properties");
-      } catch (FloodlightModuleException e) {
-         // TODO Auto-generated catch block
-         e.printStackTrace();
-      }
+      IFloodlightModuleContext moduleContext = GlobalHelper.getModuleContext();
 
       vnf.init((FloodlightModuleContext) moduleContext);
       vnf.startUp((FloodlightModuleContext) moduleContext);

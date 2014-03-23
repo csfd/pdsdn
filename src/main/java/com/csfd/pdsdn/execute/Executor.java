@@ -13,18 +13,20 @@ import com.csfd.pdsdn.aws.extender.SIResource;
 import com.csfd.pdsdn.aws.extender.SIStatement;
 import com.csfd.pdsdn.aws.impl.SDNAction;
 import com.csfd.pdsdn.helper.ActionMethods;
+import com.csfd.pdsdn.helper.GlobalHelper;
 
 /**
  * @author shic
  *
  */
-public class Executor {
+public class Executor implements Runnable {
    private JsonLoader jsonLoader;
 
    public Executor(JsonLoader jl) {
       jsonLoader = jl;
    }
 
+   @Override
    public void run() {
       JsonPolicyParser jpp = new JsonPolicyParser(jsonLoader);
       SIStatement sistatement = jpp.getSistatement();
@@ -51,7 +53,15 @@ public class Executor {
          // TODO Auto-generated catch block
          e.printStackTrace();
       }
+
+      setEndTime();
       return true;
 
+   }
+
+   private synchronized void setEndTime() {
+      long currentTime = System.currentTimeMillis();
+      if (currentTime > GlobalHelper.getTaskEndTime())
+         GlobalHelper.setTaskEndTime(currentTime);
    }
 }

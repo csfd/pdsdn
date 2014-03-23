@@ -3,9 +3,14 @@
  */
 package com.csfd.pdsdn.test.execute;
 
+import java.io.File;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import net.floodlightcontroller.core.module.FloodlightModuleException;
 
 import com.csfd.pdsdn.execute.Executor;
+import com.csfd.pdsdn.helper.GlobalHelper;
 import com.csfd.pdsdn.policy.json.JsonLoader;
 import com.csfd.pdsdn.test.core.Controller;
 
@@ -14,6 +19,7 @@ import com.csfd.pdsdn.test.core.Controller;
  *
  */
 public class ExecutorTest {
+   private static final String BASE_DIR = "fsdb/";
    /**
     * @param args
     * @throws FloodlightModuleException
@@ -22,10 +28,33 @@ public class ExecutorTest {
       Controller con = new Controller(args);
       Thread conThread = new Thread(con);
       conThread.start();
-      JsonLoader jl = new JsonLoader(
-         "TenantUser-93c6695a-c6a9-42e9-8d9c-f7db1738fcbd-Subnet-939f04dd-49bb-4793-b4a5-d9d6eb714e99.json");
-      Executor exe = new Executor(jl);
-      exe.run();
+      try {
+         Thread.sleep(10 * 1000);
+      } catch (InterruptedException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
+
+      File dir = new File(BASE_DIR);
+      File files[] = dir.listFiles();
+      ExecutorService executorService = Executors.newFixedThreadPool(3);
+      GlobalHelper.setTaskStartTime(System.currentTimeMillis());
+      GlobalHelper.setTaskEndTime(0);
+      // ThreadPoolExecutor threadPool = new ThreadPoolExecutor();
+      for (int i = 0; i < files.length; i++) {
+         JsonLoader jl = new JsonLoader(files[i].getName());
+         Executor exe = new Executor(jl);
+         executorService.submit(exe);
+      }
+
+      try {
+         Thread.sleep(10 * 1000);
+      } catch (InterruptedException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
+
+      System.out.print(GlobalHelper.getTaskEndTime() - GlobalHelper.getTaskStartTime());
    }
 
 }
