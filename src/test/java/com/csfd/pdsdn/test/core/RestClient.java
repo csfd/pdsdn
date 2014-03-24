@@ -10,6 +10,7 @@ import java.util.concurrent.Callable;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -62,6 +63,24 @@ public class RestClient implements Callable<String> {
          }
          try {
             httpResponse = httpClient.execute(target, putRequest);
+         } catch (ClientProtocolException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+         } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+         }
+      }
+      case "POST": {
+         HttpPost postRequest = new HttpPost(path);
+         try {
+            postRequest.setEntity(new StringEntity(data));
+         } catch (UnsupportedEncodingException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+         }
+         try {
+            httpResponse = httpClient.execute(target, postRequest);
          } catch (ClientProtocolException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

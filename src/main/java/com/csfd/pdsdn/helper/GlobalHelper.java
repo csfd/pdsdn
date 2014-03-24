@@ -17,6 +17,7 @@ public class GlobalHelper {
    public static long taskEndTime;
    public static int[] ports = new int[] { 21, 23, 25, 53, 80, 443, 3128, 8080 };
    public static Random random = new Random();
+   public static int threadPoolSize = 10;
    /**
     * @return the moduleContext
     */

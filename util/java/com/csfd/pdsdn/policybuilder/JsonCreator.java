@@ -185,6 +185,9 @@ public class JsonCreator {
    }
    public static void main(String[] args) {
       JsonCreator jc = new JsonCreator();
+      GlobalHelper.setTaskStartTime(System.currentTimeMillis());
       jc.fwcreate();
+      GlobalHelper.setTaskEndTime(System.currentTimeMillis());
+      System.out.print(GlobalHelper.getTaskEndTime() - GlobalHelper.getTaskStartTime());
    }
 }

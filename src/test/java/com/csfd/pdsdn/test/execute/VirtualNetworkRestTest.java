@@ -44,7 +44,7 @@ public class VirtualNetworkRestTest {
       File dir = new File(BASE_DIR);
       File files[] = dir.listFiles();
 
-      ExecutorService executorService = Executors.newFixedThreadPool(10);
+      ExecutorService executorService = Executors.newFixedThreadPool(GlobalHelper.threadPoolSize);
       GlobalHelper.setTaskStartTime(System.currentTimeMillis());
       GlobalHelper.setTaskEndTime(0);
       // ThreadPoolExecutor threadPool = new ThreadPoolExecutor();
