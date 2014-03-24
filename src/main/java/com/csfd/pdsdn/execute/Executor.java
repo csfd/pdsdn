@@ -46,10 +46,16 @@ public class Executor implements Runnable {
       case ActionMethods.CREATE_VIRTUAL_NETWORK: {
          taskExecutor = new VirtualNetworkExecutor(principal.getId(), resource);
       }
+      case ActionMethods.CREATE_FIREWALL_ACL: {
+         taskExecutor = new FireWallAclExecutor(principal.getId(), resource);
+      }
       }
       try {
          taskExecutor.execute();
       } catch (FloodlightModuleException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      } catch (Exception e) {
          // TODO Auto-generated catch block
          e.printStackTrace();
       }

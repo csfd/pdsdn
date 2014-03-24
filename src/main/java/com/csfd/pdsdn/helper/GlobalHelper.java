@@ -3,6 +3,8 @@
  */
 package com.csfd.pdsdn.helper;
 
+import java.util.Random;
+
 import net.floodlightcontroller.core.module.IFloodlightModuleContext;
 
 /**
@@ -13,7 +15,8 @@ public class GlobalHelper {
    public static IFloodlightModuleContext moduleContext;
    public static long taskStartTime;
    public static long taskEndTime;
-
+   public static int[] ports = new int[] { 21, 23, 25, 53, 80, 443, 3128, 8080 };
+   public static Random random = new Random();
    /**
     * @return the moduleContext
     */
@@ -59,4 +62,7 @@ public class GlobalHelper {
       GlobalHelper.taskEndTime = taskEndTime;
    }
 
+   public static int getPort() {
+      return ports[random.nextInt(ports.length)];
+   }
 }

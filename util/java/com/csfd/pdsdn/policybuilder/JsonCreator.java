@@ -21,6 +21,8 @@ import net.floodlightcontroller.util.MACAddress;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.csfd.pdsdn.helper.GlobalHelper;
+
 /**
  * @author shic
  *
@@ -38,7 +40,7 @@ public class JsonCreator {
 
    }
 
-   public void create() {
+   public void vnfcreate() {
       try {
          inputFile = new FileInputStream("user.properties");
       } catch (FileNotFoundException e) {
@@ -88,6 +90,64 @@ public class JsonCreator {
 
    }
 
+   public void fwcreate() {
+      try {
+         inputFile = new FileInputStream("user.properties");
+      } catch (FileNotFoundException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
+      try {
+         property.load(inputFile);
+      } catch (IOException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
+      String Effect = property.getProperty("Effect");
+      int TenantNum = Integer.parseInt(property.getProperty("TenantNum"));
+      int hostsNum = Integer.parseInt(property.getProperty("hostsNum"));
+      String action = property.getProperty("Action");
+      String TenantPrefix = property.getProperty("TenantPrefix");
+      for (int i = 0; i < TenantNum; i++) {
+         String userGuid = UUID.randomUUID().toString();
+         String tenantName = TenantPrefix + userGuid;
+         hm = new HashMap<String, Object>();
+         hm.put("Effect", Effect);
+         hm.put("Principal", new JSONObject("{\"SDN\":\"" + tenantName + "\"}"));
+         hm.put("Action", action);
+         HashMap<String, JSONArray> resourceValue = new HashMap<String, JSONArray>();
+         JSONArray macArray = new JSONArray();
+         for (int k = 0; k < hostsNum; k++) {
+            MACAddress macAddress = getMac();
+            macArray.put(macAddress.toString());
+         }
+
+         JSONArray ruleSet = new JSONArray();
+         for (int k = 0; k < hostsNum; k++) {
+            Random random = new Random();
+            for (int r = 0; r < 5; r++) {
+               JSONObject oneRule = new JSONObject();
+               oneRule.put("src-mac", macArray.get(k));
+               oneRule.put("dst-mac", macArray.get(random.nextInt(hostsNum)));
+               oneRule.put("nw-proto", "TCP");
+               oneRule.put("tp-dst", Integer.toString(GlobalHelper.getPort()));
+               oneRule.put("action", (random.nextInt() % 2 == 0) ? "ALLOW" : "DENY");
+               ruleSet.put(oneRule);
+            }
+
+         }
+         resourceValue.put("rules", ruleSet);
+
+         JSONObject resourceObject = new JSONObject(resourceValue);
+         hm.put("Resource", resourceObject);
+         sistatement = new JSONObject(hm);
+         jsonBuilder = new JsonBuilder();
+         jsonBuilder.generator(sistatement);
+         writeToFile(jsonBuilder.getJsonString(), tenantName + "-ACL.json");
+      }
+
+   }
+
    private void writeToFile(String jsonString, String fileName) {
       jsonString.replaceAll(",", ",\\n");
       BufferedWriter bufferedWriter = null;
@@ -125,6 +185,6 @@ public class JsonCreator {
    }
    public static void main(String[] args) {
       JsonCreator jc = new JsonCreator();
-      jc.create();
+      jc.fwcreate();
    }
 }

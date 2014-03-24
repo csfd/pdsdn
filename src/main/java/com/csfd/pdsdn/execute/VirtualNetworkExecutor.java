@@ -21,7 +21,9 @@ import com.csfd.pdsdn.helper.IPHelper;
  * @author shic
  *
  */
-public class VirtualNetworkExecutor extends TaskExecutor {
+public class VirtualNetworkExecutor implements TaskExecutor {
+   private String userName;
+   private SIResource siresource;
    private String guid;
    private String networkName;
    private Integer gateway;
@@ -33,8 +35,8 @@ public class VirtualNetworkExecutor extends TaskExecutor {
     * @param resource
     */
    public VirtualNetworkExecutor(String userName, SIResource siresource) {
-      super(userName, siresource);
-      // TODO Auto-generated constructor stub
+      this.userName = userName;
+      this.siresource = siresource;
    }
 
 
@@ -43,7 +45,7 @@ public class VirtualNetworkExecutor extends TaskExecutor {
     * @see com.csfd.pdsdn.execute.TaskExecutor#parseResource()
     */
    @Override
-   protected void parseResource() {
+   public void parseResource() {
       HashMap<String, Object> hm = siresource.getResourceMap();
       guid = (String) hm.get("guid");
       networkName = (String) hm.get("networkName");
